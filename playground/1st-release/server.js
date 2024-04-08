@@ -1,12 +1,11 @@
 import express from 'express'
 import http from 'http'
 import createGame from './public/game.js'
-import {server} from 'socket.io'
-import { Server } from 'engine.io'
+import { Server } from 'socket.io'
 
 const app = express()
 const server = http.createServer(app)
-const sockets = new Server(server)
+const io = new Server(server)
 
 app.use(express.static('public'))
 
@@ -20,7 +19,7 @@ game.movePlayer({playerId: 'player1', keyPressed: 'ArrowRight'})
 
 console.log(game.state)
 
-sockets.on('connection', (socket) => {
+io.on('connection', (socket) => {
     const playerId = socket.id
     console.log(`> Player connected on Server width id: ${playerId}`)
 })
